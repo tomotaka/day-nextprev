@@ -3,7 +3,7 @@
 
 ## Installation
 
-    $ pip install day-nextprev
+    $ pip install daynextprev
 
 ## Usage
 
