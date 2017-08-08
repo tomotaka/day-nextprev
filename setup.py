@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='daynextprev',
-    version='0.0.1',
+    version='0.0.2',
     description='calculate next/prev day from y/m/d input',
     author='Tomotaka Ito',
     author_email='tomotaka.ito@gmail.com',
