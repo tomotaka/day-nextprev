@@ -15,7 +15,7 @@ def is_leapyear(y):
 def days_of_month(y, m):
     if m == 2:
         return (29 if is_leapyear(y) else 28)
-    elif m in (1, 3, 5, 8, 10, 12):
+    elif m in (1, 3, 5, 7, 8, 10, 12):
         return 31
     else:
         return 30
