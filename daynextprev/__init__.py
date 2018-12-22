@@ -1,6 +1,20 @@
 # -*- coding: utf-8 -*-
 
 
+def prev_month(y, m):
+    if m == 1:
+        return (y - 1, 12)
+    else:
+        return (y, m - 1)
+
+
+def next_month(y, m):
+    if m == 12:
+        return (y + 1, 1)
+    else:
+        return (y, m + 1)
+
+
 def is_leapyear(y):
     if y % 400 == 0:
         return True

@@ -2,10 +2,45 @@
 from unittest import TestCase
 from nose.tools import ok_, eq_
 
-from daynextprev import is_leapyear, days_of_month, next_day, prev_day
+from daynextprev import (
+    prev_month,
+    next_month,
+    is_leapyear,
+    days_of_month,
+    next_day,
+    prev_day
+)
 
 
 class DayNextPrevTestCase(TestCase):
+    def test_prev_month(self):
+        eq_((2017, 12), prev_month(2018, 1))
+        eq_((2018, 1), prev_month(2018, 2))
+        eq_((2018, 2), prev_month(2018, 3))
+        eq_((2018, 3), prev_month(2018, 4))
+        eq_((2018, 4), prev_month(2018, 5))
+        eq_((2018, 5), prev_month(2018, 6))
+        eq_((2018, 6), prev_month(2018, 7))
+        eq_((2018, 7), prev_month(2018, 8))
+        eq_((2018, 8), prev_month(2018, 9))
+        eq_((2018, 9), prev_month(2018, 10))
+        eq_((2018, 10), prev_month(2018, 11))
+        eq_((2018, 11), prev_month(2018, 12))
+
+    def test_next_month(self):
+        eq_((2018, 2), next_month(2018, 1))
+        eq_((2018, 3), next_month(2018, 2))
+        eq_((2018, 4), next_month(2018, 3))
+        eq_((2018, 5), next_month(2018, 4))
+        eq_((2018, 6), next_month(2018, 5))
+        eq_((2018, 7), next_month(2018, 6))
+        eq_((2018, 8), next_month(2018, 7))
+        eq_((2018, 9), next_month(2018, 8))
+        eq_((2018, 10), next_month(2018, 9))
+        eq_((2018, 11), next_month(2018, 10))
+        eq_((2018, 12), next_month(2018, 11))
+        eq_((2019, 1), next_month(2018, 12))
+
     def test_is_leapyear(self):
         # leap year (y % 400 == 0)
         ok_(is_leapyear(1600))
