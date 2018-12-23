@@ -5,6 +5,8 @@ from nose.tools import ok_, eq_
 from daynextprev import (
     prev_month,
     next_month,
+    is_less_ym,
+    months,
     is_leapyear,
     days_of_month,
     next_day,
@@ -40,6 +42,63 @@ class DayNextPrevTestCase(TestCase):
         eq_((2018, 11), next_month(2018, 10))
         eq_((2018, 12), next_month(2018, 11))
         eq_((2019, 1), next_month(2018, 12))
+
+    def test_is_less_ym(self):
+        # ym1 < ym2
+        ok_(is_less_ym((2018, 1), (2018, 2)))
+        ok_(is_less_ym((2015, 10), (2017, 3)))
+
+        # ym1 == ym2
+        ok_(not is_less_ym((2018, 1), (2018, 1)))
+        ok_(not is_less_ym((2000, 3), (2000, 3)))
+
+        # ym1 > ym2
+        ok_(not is_less_ym((2018, 2), (2018, 1)))
+        ok_(not is_less_ym((2015, 10), (2014, 12)))
+
+    def test_months(self):
+        months1 = months((2018, 1), (2018, 5), include_end=True)
+
+        months1_1 = []
+        for ym in months1:
+            months1_1.append(ym)
+
+        eq_(
+            [
+                (2018, 1),
+                (2018, 2),
+                (2018, 3),
+                (2018, 4),
+                (2018, 5)
+            ],
+            months1_1
+        )
+
+        months1_2 = []
+        for ym in months1:
+            months1_2.append(ym)
+
+        eq_(
+            [
+                (2018, 1),
+                (2018, 2),
+                (2018, 3),
+                (2018, 4),
+                (2018, 5)
+            ],
+            months1_2
+        )
+
+        months2 = list(months((2018, 1), (2018, 5), include_end=False))
+        eq_(
+            [
+                (2018, 1),
+                (2018, 2),
+                (2018, 3),
+                (2018, 4)
+            ],
+            months2
+        )
 
     def test_is_leapyear(self):
         # leap year (y % 400 == 0)
