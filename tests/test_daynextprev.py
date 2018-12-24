@@ -101,6 +101,18 @@ class DayNextPrevTestCase(TestCase):
             months2
         )
 
+        months3 = list(months((2018, 2), (2018, 6)))
+        eq_(
+            [
+                (2018, 2),
+                (2018, 3),
+                (2018, 4),
+                (2018, 5),
+                (2018, 6)
+            ],
+            months3
+        )
+
     def test_months_backward(self):
         months1 = months_backward((2018, 2), (2017, 11), include_end=True)
         months1_1 = []
