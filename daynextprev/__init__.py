@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 
 class _reiter(object):
@@ -81,7 +82,7 @@ def days_of_month(y, m):
         return 30
 
 
-def next_day(y, m, d):
+def _next_day(y, m, d):
     if d == days_of_month(y, m):
         if m == 12:
             return (y + 1, 1, 1)
@@ -91,7 +92,19 @@ def next_day(y, m, d):
         return (y, m, d + 1)
 
 
-def prev_day(y, m, d):
+def dt2tuple(dt):
+    return (dt.year, dt.month, dt.day)
+
+
+def next_day(*args):
+    if len(args) == 1 and isinstance(args[0], datetime.date):
+        y, m, d = _next_day(*dt2tuple(args[0]))
+        return datetime.date(y, m, d)
+    else:
+        return _next_day(*args)
+
+
+def _prev_day(y, m, d):
     if d == 1:
         if m == 1:
             return (y - 1, 12, 31)
@@ -100,3 +113,11 @@ def prev_day(y, m, d):
             return (y, bm, days_of_month(y, bm))
     else:
         return (y, m, d - 1)
+
+
+def prev_day(*args):
+    if len(args) == 1 and isinstance(args[0], datetime.date):
+        y, m, d = _prev_day(*dt2tuple(args[0]))
+        return datetime.date(y, m, d)
+    else:
+        return _prev_day(*args)
