@@ -13,7 +13,9 @@ from daynextprev import (
     is_leapyear,
     days_of_month,
     next_day,
-    prev_day
+    prev_day,
+    days,
+    days_backward
 )
 
 
@@ -356,3 +358,264 @@ class DayNextPrevTestCase(TestCase):
         eq_(date(2017, 5, 14), prev_day(date(2017, 5, 15)))
         eq_((2017, 5, 15), prev_day(2017, 5, 16))
         eq_(date(2017, 5, 15), prev_day(date(2017, 5, 16)))
+
+    def test_days(self):
+        days1 = days((2018, 1, 30), (2018, 2, 3), include_end=True)
+        days1_1 = []
+        for d in days1:
+            days1_1.append(d)
+
+        eq_(
+            [
+                (2018, 1, 30),
+                (2018, 1, 31),
+                (2018, 2, 1),
+                (2018, 2, 2),
+                (2018, 2, 3)
+            ],
+            days1_1
+        )
+
+        days1_2 = list(days1)
+        eq_(
+            [
+                (2018, 1, 30),
+                (2018, 1, 31),
+                (2018, 2, 1),
+                (2018, 2, 2),
+                (2018, 2, 3)
+            ],
+            days1_2
+        )
+
+        days2 = days((2018, 1, 30), (2018, 2, 3))
+        days2_1 = list(days2)
+        eq_(
+            [
+                (2018, 1, 30),
+                (2018, 1, 31),
+                (2018, 2, 1),
+                (2018, 2, 2),
+                (2018, 2, 3)
+            ],
+            days2_1
+        )
+
+        days3 = days(date(2020, 2, 26), date(2020, 3, 2), include_end=False)
+        days3_1 = list(days3)
+        eq_(
+            [
+                date(2020, 2, 26),
+                date(2020, 2, 27),
+                date(2020, 2, 28),
+                date(2020, 2, 29),
+                date(2020, 3, 1)
+            ],
+            days3_1
+        )
+
+        days3_2 = []
+        for d in days3:
+            days3_2.append(d)
+
+        eq_(
+            [
+                date(2020, 2, 26),
+                date(2020, 2, 27),
+                date(2020, 2, 28),
+                date(2020, 2, 29),
+                date(2020, 3, 1)
+            ],
+            days3_2
+        )
+
+        days4 = days(date(2020, 2, 26), date(2020, 3, 2))
+        days4_1 = list(days4)
+        eq_(
+            [
+                date(2020, 2, 26),
+                date(2020, 2, 27),
+                date(2020, 2, 28),
+                date(2020, 2, 29),
+                date(2020, 3, 1),
+                date(2020, 3, 2)
+            ],
+            days4_1
+        )
+
+    def test_days_backward(self):
+        days1 = days_backward((2018, 5, 4), (2018, 4, 27), include_end=True)
+        days1_1 = []
+        for d in days1:
+            days1_1.append(d)
+
+        eq_(
+            [
+                (2018, 5, 4),
+                (2018, 5, 3),
+                (2018, 5, 2),
+                (2018, 5, 1),
+                (2018, 4, 30),
+                (2018, 4, 29),
+                (2018, 4, 28),
+                (2018, 4, 27)
+            ],
+            days1_1
+        )
+
+        days1_2 = list(days1)
+        eq_(
+            [
+                (2018, 5, 4),
+                (2018, 5, 3),
+                (2018, 5, 2),
+                (2018, 5, 1),
+                (2018, 4, 30),
+                (2018, 4, 29),
+                (2018, 4, 28),
+                (2018, 4, 27)
+            ],
+            days1_2
+        )
+
+        days2 = days_backward((2018, 5, 4), (2018, 4, 27), include_end=False)
+        days2_1 = list(days2)
+        eq_(
+            [
+                (2018, 5, 4),
+                (2018, 5, 3),
+                (2018, 5, 2),
+                (2018, 5, 1),
+                (2018, 4, 30),
+                (2018, 4, 29),
+                (2018, 4, 28)
+            ],
+            days2_1
+        )
+
+        days3 = days_backward((2018, 5, 4), (2018, 4, 27))
+        days3_1 = list(days3)
+        eq_(
+            [
+                (2018, 5, 4),
+                (2018, 5, 3),
+                (2018, 5, 2),
+                (2018, 5, 1),
+                (2018, 4, 30),
+                (2018, 4, 29),
+                (2018, 4, 28),
+                (2018, 4, 27)
+            ],
+            days3_1
+        )
+
+        days4 = days_backward(date(2020, 3, 8), date(2020, 2, 19), include_end=True)
+        days4_1 = []
+        for d in days4:
+            days4_1.append(d)
+        eq_(
+            [
+                date(2020, 3, 8),
+                date(2020, 3, 7),
+                date(2020, 3, 6),
+                date(2020, 3, 5),
+                date(2020, 3, 4),
+                date(2020, 3, 3),
+                date(2020, 3, 2),
+                date(2020, 3, 1),
+                date(2020, 2, 29),
+                date(2020, 2, 28),
+                date(2020, 2, 27),
+                date(2020, 2, 26),
+                date(2020, 2, 25),
+                date(2020, 2, 24),
+                date(2020, 2, 23),
+                date(2020, 2, 22),
+                date(2020, 2, 21),
+                date(2020, 2, 20),
+                date(2020, 2, 19)
+            ],
+            days4_1
+        )
+
+        days4_2 = list(days4)
+        eq_(
+            [
+                date(2020, 3, 8),
+                date(2020, 3, 7),
+                date(2020, 3, 6),
+                date(2020, 3, 5),
+                date(2020, 3, 4),
+                date(2020, 3, 3),
+                date(2020, 3, 2),
+                date(2020, 3, 1),
+                date(2020, 2, 29),
+                date(2020, 2, 28),
+                date(2020, 2, 27),
+                date(2020, 2, 26),
+                date(2020, 2, 25),
+                date(2020, 2, 24),
+                date(2020, 2, 23),
+                date(2020, 2, 22),
+                date(2020, 2, 21),
+                date(2020, 2, 20),
+                date(2020, 2, 19)
+            ],
+            days4_2
+        )
+
+        days5 = days_backward(date(2020, 3, 8), date(2020, 2, 19), include_end=False)
+        days5_1 = list(days5)
+        eq_(
+            [
+                date(2020, 3, 8),
+                date(2020, 3, 7),
+                date(2020, 3, 6),
+                date(2020, 3, 5),
+                date(2020, 3, 4),
+                date(2020, 3, 3),
+                date(2020, 3, 2),
+                date(2020, 3, 1),
+                date(2020, 2, 29),
+                date(2020, 2, 28),
+                date(2020, 2, 27),
+                date(2020, 2, 26),
+                date(2020, 2, 25),
+                date(2020, 2, 24),
+                date(2020, 2, 23),
+                date(2020, 2, 22),
+                date(2020, 2, 21),
+                date(2020, 2, 20)
+            ],
+            days5_1
+        )
+
+        days6 = days_backward(date(2020, 3, 8), date(2020, 2, 19))
+        days6_1 = list(days6)
+        eq_(
+            [
+                date(2020, 3, 8),
+                date(2020, 3, 7),
+                date(2020, 3, 6),
+                date(2020, 3, 5),
+                date(2020, 3, 4),
+                date(2020, 3, 3),
+                date(2020, 3, 2),
+                date(2020, 3, 1),
+                date(2020, 2, 29),
+                date(2020, 2, 28),
+                date(2020, 2, 27),
+                date(2020, 2, 26),
+                date(2020, 2, 25),
+                date(2020, 2, 24),
+                date(2020, 2, 23),
+                date(2020, 2, 22),
+                date(2020, 2, 21),
+                date(2020, 2, 20),
+                date(2020, 2, 19)
+            ],
+            days6_1
+        )
+
+
+

@@ -96,6 +96,10 @@ def dt2tuple(dt):
     return (dt.year, dt.month, dt.day)
 
 
+def tuple2dt(ymd):
+    return datetime.date(ymd[0], ymd[1], ymd[2])
+
+
 def next_day(*args):
     if len(args) == 1 and isinstance(args[0], datetime.date):
         y, m, d = _next_day(*dt2tuple(args[0]))
@@ -121,3 +125,69 @@ def prev_day(*args):
         return datetime.date(y, m, d)
     else:
         return _prev_day(*args)
+
+
+def _days_dt(dt_start, dt_end, include_end=True):
+    if include_end:
+        dt_end = next_day(dt_end)
+
+    def _days():
+        dt = dt_start
+        while dt < dt_end:
+            yield dt
+            dt = next_day(dt)
+
+    return _reiter(_days)
+
+
+def _days_tuple(ymd_start, ymd_end, include_end=True):
+    if include_end:
+        ymd_end = next_day(*ymd_end)
+
+    def _days():
+        ymd = ymd_start
+        while tuple2dt(ymd) < tuple2dt(ymd_end):
+            yield ymd
+            ymd = next_day(*ymd)
+
+    return _reiter(_days)
+
+
+def days(d_start, d_end, include_end=True):
+    if isinstance(d_start, datetime.date):
+        return _days_dt(d_start, d_end, include_end)
+    else:
+        return _days_tuple(d_start, d_end, include_end)
+
+
+def _days_backward_dt(dt_start, dt_end, include_end=True):
+    if include_end:
+        dt_end = prev_day(dt_end)
+
+    def _days():
+        dt = dt_start
+        while dt_end < dt:
+            yield dt
+            dt = prev_day(dt)
+
+    return _reiter(_days)
+
+
+def _days_backward_ymd(ymd_start, ymd_end, include_end=True):
+    if include_end:
+        ymd_end = prev_day(*ymd_end)
+
+    def _days():
+        ymd = ymd_start
+        while tuple2dt(ymd_end) < tuple2dt(ymd):
+            yield ymd
+            ymd = prev_day(*ymd)
+
+    return _reiter(_days)
+
+
+def days_backward(d_start, d_end, include_end=True):
+    if isinstance(d_start, datetime.date):
+        return _days_backward_dt(d_start, d_end, include_end)
+    else:
+        return _days_backward_ymd(d_start, d_end, include_end)
