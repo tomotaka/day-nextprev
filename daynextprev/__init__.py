@@ -48,6 +48,19 @@ def months(ym_start, ym_end, include_end=True):
     return _reiter(_months)
 
 
+def months_backward(ym_start, ym_end, include_end=True):
+    if include_end:
+        ym_end = ym_end = prev_month(*ym_end)
+
+    def _months():
+        ym = ym_start
+        while is_less_ym(ym_end, ym):
+            yield ym
+            ym = prev_month(*ym)
+
+    return _reiter(_months)
+
+
 def is_leapyear(y):
     if y % 400 == 0:
         return True

@@ -7,6 +7,7 @@ from daynextprev import (
     next_month,
     is_less_ym,
     months,
+    months_backward,
     is_leapyear,
     days_of_month,
     next_day,
@@ -98,6 +99,54 @@ class DayNextPrevTestCase(TestCase):
                 (2018, 4)
             ],
             months2
+        )
+
+    def test_months_backward(self):
+        months1 = months_backward((2018, 2), (2017, 11), include_end=True)
+        months1_1 = []
+        for ym in months1:
+            months1_1.append(ym)
+
+        eq_(
+            [
+                (2018, 2),
+                (2018, 1),
+                (2017, 12),
+                (2017, 11)
+            ],
+            months1_1
+        )
+
+        months1_2 = list(months1)
+
+        eq_(
+            [
+                (2018, 2),
+                (2018, 1),
+                (2017, 12),
+                (2017, 11)
+            ],
+            months1_2
+        )
+
+        months2 = list(months_backward((2018, 2), (2017, 11), include_end=False))
+        eq_(
+            [
+                (2018, 2),
+                (2018, 1),
+                (2017, 12)
+            ],
+            months2
+        )
+
+        months3 = list(months_backward((2018, 3), (2018 ,1)))
+        eq_(
+            [
+                (2018, 3),
+                (2018, 2),
+                (2018, 1)
+            ],
+            months3
         )
 
     def test_is_leapyear(self):
