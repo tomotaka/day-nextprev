@@ -15,11 +15,31 @@ from daynextprev import (
     next_day,
     prev_day,
     days,
-    days_backward
+    days_backward,
+    this_week,
+    next_week,
+    prev_week,
+    W_MONDAY,
+    W_TUESDAY,
+    W_WEDNESDAY,
+    W_THURSDAY,
+    W_FRIDAY,
+    W_SATURDAY,
+    W_SUNDAY
 )
 
 
 class DayNextPrevTestCase(TestCase):
+
+    def test_constants(self):
+        eq_(0, W_MONDAY)
+        eq_(1, W_TUESDAY)
+        eq_(2, W_WEDNESDAY)
+        eq_(3, W_THURSDAY)
+        eq_(4, W_FRIDAY)
+        eq_(5, W_SATURDAY)
+        eq_(6, W_SUNDAY)
+
     def test_prev_month(self):
         eq_((2017, 12), prev_month(2018, 1))
         eq_((2018, 1), prev_month(2018, 2))
@@ -617,5 +637,35 @@ class DayNextPrevTestCase(TestCase):
             days6_1
         )
 
+    def test_this_week(self):
+        d1 = date(2018, 1, 1)  # monday
+        eq_(date(2018, 1,1), this_week(d1))
+        eq_(date(2018, 1,1), this_week(d1, week_start=W_MONDAY))
+        eq_(date(2017, 12, 31), this_week(d1, week_start=W_SUNDAY))
+        eq_(date(2017, 12, 30), this_week(d1, week_start=W_SATURDAY))
+        eq_(date(2017, 12, 29), this_week(d1, week_start=W_FRIDAY))
+        eq_(date(2017, 12, 28), this_week(d1, week_start=W_THURSDAY))
+        eq_(date(2017, 12, 27), this_week(d1, week_start=W_WEDNESDAY))
+        eq_(date(2017, 12, 26), this_week(d1, week_start=W_TUESDAY))
 
+    def test_next_week(self):
+        d1 = date(2018, 1, 1)  # monday
+        eq_(date(2018, 1, 8), next_week(d1))
+        eq_(date(2018, 1, 8), next_week(d1, week_start=W_MONDAY))
 
+        d2 = date(2019, 1, 3)  # thursday
+        eq_(date(2019, 1, 8), next_week(d2, week_start=W_TUESDAY))
+
+        d3 = date(2019, 2, 6)  # wednesday
+        eq_(date(2019, 2, 10), next_week(d3, week_start=W_SUNDAY))
+
+    def test_prev_week(self):
+        d1 = date(2018, 1, 1)  # monday
+        eq_(date(2017, 12, 25), prev_week(d1))
+        eq_(date(2017, 12, 25), prev_week(d1, week_start=W_MONDAY))
+
+        d2 = date(2019, 1, 3)  # thursday
+        eq_(date(2018, 12, 25), prev_week(d2, week_start=W_TUESDAY))
+
+        d3 = date(2019, 2, 6)  # wednesday
+        eq_(date(2019, 1, 27), prev_week(d3, week_start=W_SUNDAY))

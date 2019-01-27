@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+W_MONDAY = 0
+W_TUESDAY = 1
+W_WEDNESDAY = 2
+W_THURSDAY = 3
+W_FRIDAY = 4
+W_SATURDAY = 5
+W_SUNDAY = 6
+
 
 class _reiter(object):
     def __init__(self, f):
@@ -191,3 +199,23 @@ def days_backward(d_start, d_end, include_end=True):
         return _days_backward_dt(d_start, d_end, include_end)
     else:
         return _days_backward_ymd(d_start, d_end, include_end)
+
+
+def this_week(d, week_start=W_MONDAY):
+    while d.weekday() != week_start:
+        d = prev_day(d)
+    return d
+
+
+def next_week(d, week_start=W_MONDAY):
+    d = this_week(d, week_start=week_start)
+    for _ in range(7):
+        d = next_day(d)
+    return d
+
+
+def prev_week(d, week_start=W_MONDAY):
+    d = this_week(d, week_start=week_start)
+    for _ in range(7):
+        d = prev_day(d)
+    return d
