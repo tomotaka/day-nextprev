@@ -115,3 +115,43 @@ fro year, month in months((2018, 3), (2017, 10), include_end=True):
 
 all_2017months_reversed = list(months_backward((2017, 12), (2017, 1)))
 ```
+
+
+### Calc start day of a week
+
+```
+from daynextprev import this_week, W_TUESDAY
+import datetime
+
+this_week(datetime.date(2019, 2, 1))  # => datetime.date(2019, 1, 28)
+
+this_week(datetime.date(2019, 2, 1), week_start=W_TUESDAY)  # => datetime.date(2019, 1, 29)
+```
+
+Default value of `week_start` is `W_MONDAY` ( which value is `0` )
+
+### Calc start day of next week
+
+```
+from daynextprev import next_week, W_TUESDAY
+import datetime
+
+next_week(datetime.date(2019, 2, 1))  # => datetime.date(2019, 2, 4)
+
+next_week(datetime.date(2019, 2, 1), week_start=W_TUESDAY)  # => datetime.date(2019, 2, 5)
+```
+
+Default value of `week_start` is `W_MONDAY` ( which value is `0` )
+
+### Calc start day of previous week
+
+```
+from daynextprev import prev_week, W_TUESDAY
+import datetime
+
+prev_week(datetime.date(2019, 2, 1))  # => datetime.date(2019, 1, 21)
+
+prev_week(datetime.date(2019, 2, 1), week_start=W_TUESDAY)  # => datetime.date(2019, 1, 22)
+```
+
+Default value of `week_start` is `W_MONDAY` ( which value is `0` )
